@@ -41,30 +41,23 @@ export function LifeBlueprintChat({
     setOnboardingComplete(true);
   };
 
-  // Show onboarding as an overlay when not complete
-  if (!state.onboardingComplete) {
-    return (
-      <div className="relative">
-        <Chat
-          id={id}
-          initialMessages={initialMessages}
-          initialChatModel={initialChatModel}
-          initialVisibilityType={initialVisibilityType}
-          isReadonly={isReadonly}
-          session={session}
-          autoResume={autoResume}
-        />
-        <div className="absolute inset-0 bg-background/95 backdrop-blur-sm z-50">
-          <LifeBlueprintOnboarding onComplete={handleOnboardingComplete} />
-        </div>
-      </div>
-    );
-  }
+  // Create initial onboarding messages when not complete
+  const onboardingMessages = !state.onboardingComplete ? [
+    {
+      id: 'onboarding-welcome',
+      role: 'assistant' as const,
+      parts: [{ type: 'text' as const, text: 'Welcome! I\'m here to help you create your Life Blueprint. Let\'s start by choosing the areas of life you\'d like to focus on.' }],
+      createdAt: new Date(),
+    }
+  ] : [];
+
+  // Combine onboarding messages with regular messages
+  const allMessages = [...onboardingMessages, ...initialMessages];
 
   return (
     <Chat
       id={id}
-      initialMessages={initialMessages}
+      initialMessages={allMessages}
       initialChatModel={initialChatModel}
       initialVisibilityType={initialVisibilityType}
       isReadonly={isReadonly}

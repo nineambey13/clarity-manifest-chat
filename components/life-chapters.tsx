@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { BookOpen, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { LIFE_CATEGORIES, type LifeCategory } from './category-selector';
+import { LIFE_CATEGORIES, type LifeCategory } from './onboarding-message';
 
 interface LifeChaptersProps {
   selectedCategories: string[];
