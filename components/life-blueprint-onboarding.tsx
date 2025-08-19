@@ -43,7 +43,7 @@ export function LifeBlueprintOnboarding({ onComplete }: LifeBlueprintOnboardingP
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
       {currentStep === 'categories' && (
         <CategorySelector
           selectedCategories={selectedCategories}
@@ -57,6 +57,6 @@ export function LifeBlueprintOnboarding({ onComplete }: LifeBlueprintOnboardingP
           onComplete={handleVisionComplete}
         />
       )}
-    </div>
+    </>
   );
 }

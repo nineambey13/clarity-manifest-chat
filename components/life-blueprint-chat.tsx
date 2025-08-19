@@ -2,7 +2,6 @@
 
 import { Chat } from './chat';
 import { LifeBlueprintOnboarding } from './life-blueprint-onboarding';
-import { LifeBlueprintGreeting } from './life-blueprint-greeting';
 import type { Session } from 'next-auth';
 import type { ChatMessage } from '@/lib/types';
 import type { VisibilityType } from './visibility-selector';
@@ -42,16 +41,23 @@ export function LifeBlueprintChat({
     setOnboardingComplete(true);
   };
 
+  // Show onboarding as an overlay when not complete
   if (!state.onboardingComplete) {
     return (
-      <LifeBlueprintOnboarding onComplete={handleOnboardingComplete} />
-    );
-  }
-
-  // Show greeting when onboarding is complete but no specific chapter is active
-  if (state.onboardingComplete && !state.activeChapter) {
-    return (
-      <LifeBlueprintGreeting />
+      <div className="relative">
+        <Chat
+          id={id}
+          initialMessages={initialMessages}
+          initialChatModel={initialChatModel}
+          initialVisibilityType={initialVisibilityType}
+          isReadonly={isReadonly}
+          session={session}
+          autoResume={autoResume}
+        />
+        <div className="absolute inset-0 bg-background/95 backdrop-blur-sm z-50">
+          <LifeBlueprintOnboarding onComplete={handleOnboardingComplete} />
+        </div>
+      </div>
     );
   }
 

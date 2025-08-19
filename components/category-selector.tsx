@@ -109,23 +109,24 @@ export function CategorySelector({
   const canProceed = isHealthSelected && additionalSelected >= 0;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      {/* Progress Indicator */}
-      <div className="flex items-center justify-center space-x-2">
-        <div className="flex space-x-1">
-          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-          <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+    <div className="flex items-center justify-center min-h-screen p-4">
+      <div className="max-w-4xl w-full bg-background border rounded-lg shadow-lg p-6 space-y-6">
+        {/* Progress Indicator */}
+        <div className="flex items-center justify-center space-x-2">
+          <div className="flex space-x-1">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+          </div>
+          <span className="text-sm text-gray-500">Step 1 of 2</span>
         </div>
-        <span className="text-sm text-gray-500">Step 1 of 2</span>
-      </div>
 
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold">Welcome!</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          To get started, choose each area of life you'd like to create a blueprint for.
-        </p>
-      </div>
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <h1 className="text-2xl font-bold">Welcome!</h1>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            To get started, choose each area of life you'd like to create a blueprint for.
+          </p>
+        </div>
 
       {/* Categories Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -203,6 +204,7 @@ export function CategorySelector({
         >
           Save Categories
         </Button>
+      </div>
       </div>
     </div>
   );

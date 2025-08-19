@@ -74,9 +74,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
             activeChapter={state.activeChapter}
           />
         ) : (
-          <div className="px-2 text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2">
-            Complete onboarding to see your life blueprint chapters
-          </div>
+          <SidebarHistory user={user} />
         )}
       </SidebarContent>
       <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>

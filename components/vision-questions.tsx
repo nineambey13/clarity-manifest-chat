@@ -70,7 +70,8 @@ export function VisionQuestions({ onComplete }: VisionQuestionsProps) {
   const canProceed = currentAnswer.trim().length > 0;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
+    <div className="flex items-center justify-center min-h-screen p-4">
+      <div className="max-w-2xl w-full bg-background border rounded-lg shadow-lg p-6 space-y-6">
       {/* Progress Indicator */}
       <div className="flex items-center justify-center space-x-2">
         <div className="flex space-x-1">
@@ -145,6 +146,7 @@ export function VisionQuestions({ onComplete }: VisionQuestionsProps) {
         <p className="text-sm text-gray-600">
           Take your time to reflect on each question. Your answers will help create a personalized life blueprint.
         </p>
+      </div>
       </div>
     </div>
   );
