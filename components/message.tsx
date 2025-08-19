@@ -19,8 +19,7 @@ import { MessageReasoning } from './message-reasoning';
 import type { UseChatHelpers } from '@ai-sdk/react';
 import type { ChatMessage } from '@/lib/types';
 import { useDataStream } from './data-stream-provider';
-import { OnboardingMessage } from './onboarding-message';
-import { useLifeBlueprint } from './life-blueprint-context';
+
 
 // Type narrowing is handled by TypeScript's control flow analysis
 // The AI SDK provides proper discriminated unions for tool calls
@@ -45,7 +44,6 @@ const PurePreviewMessage = ({
   requiresScrollPadding: boolean;
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
-  const { state, setOnboardingComplete, setVisionAnswers } = useLifeBlueprint();
 
   const attachmentsFromMessage = message.parts.filter(
     (part) => part.type === 'file',
@@ -117,9 +115,6 @@ const PurePreviewMessage = ({
               }
 
               if (type === 'text') {
-                // Check if this is an onboarding message
-                const isOnboardingWelcome = message.id === 'onboarding-welcome';
-                
                 if (mode === 'view') {
                   return (
                     <div key={key} className="flex flex-row gap-2 items-start">
@@ -149,17 +144,6 @@ const PurePreviewMessage = ({
                         })}
                       >
                         <Markdown>{sanitizeText(part.text)}</Markdown>
-                        
-                        {/* Render onboarding content if this is the onboarding welcome message */}
-                        {isOnboardingWelcome && !state.onboardingComplete && (
-                          <OnboardingMessage
-                            step="categories"
-                            onComplete={(data) => {
-                              setOnboardingComplete(true);
-                              setVisionAnswers(data.visionAnswers);
-                            }}
-                          />
-                        )}
                       </div>
                     </div>
                   );
