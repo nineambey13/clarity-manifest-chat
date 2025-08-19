@@ -17,10 +17,18 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import { LifeChapters } from './life-chapters';
+import { useLifeBlueprint } from './life-blueprint-context';
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
   const { setOpenMobile } = useSidebar();
+  const { state, setActiveChapter } = useLifeBlueprint();
+
+  const handleChapterSelect = (chapterId: string) => {
+    setActiveChapter(chapterId);
+    // Here you would navigate to the specific chapter or update the chat context
+  };
 
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
@@ -35,7 +43,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               className="flex flex-row gap-3 items-center"
             >
               <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
-                Chatbot
+                Chapters
               </span>
             </Link>
             <Tooltip>
@@ -59,7 +67,17 @@ export function AppSidebar({ user }: { user: User | undefined }) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarHistory user={user} />
+        {state.onboardingComplete ? (
+          <LifeChapters
+            selectedCategories={state.selectedCategories}
+            onChapterSelect={handleChapterSelect}
+            activeChapter={state.activeChapter}
+          />
+        ) : (
+          <div className="px-2 text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2">
+            Complete onboarding to see your life blueprint chapters
+          </div>
+        )}
       </SidebarContent>
       <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
     </Sidebar>

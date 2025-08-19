@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
 
-import { ModelSelector } from '@/components/model-selector';
 import { SidebarToggle } from '@/components/sidebar-toggle';
 import { Button } from '@/components/ui/button';
 import { PlusIcon, VercelIcon } from './icons';
@@ -13,6 +12,8 @@ import { memo } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { type VisibilityType, VisibilitySelector } from './visibility-selector';
 import type { Session } from 'next-auth';
+import { PenTool } from 'lucide-react';
+import { useLifeBlueprint } from './life-blueprint-context';
 
 function PureChatHeader({
   chatId,
@@ -29,6 +30,7 @@ function PureChatHeader({
 }) {
   const router = useRouter();
   const { open } = useSidebar();
+  const { state } = useLifeBlueprint();
 
   const { width: windowWidth } = useWindowSize();
 
@@ -36,32 +38,33 @@ function PureChatHeader({
     <header className="flex sticky top-0 bg-background py-1.5 items-center px-2 md:px-2 gap-2">
       <SidebarToggle />
 
-      {(!open || windowWidth < 768) && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
-              onClick={() => {
-                router.push('/');
-                router.refresh();
-              }}
-            >
-              <PlusIcon />
-              <span className="md:sr-only">New Chat</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>New Chat</TooltipContent>
-        </Tooltip>
-      )}
+      {/* Center Manifest Title with Icon */}
+      <div className="flex-1 flex justify-center items-center">
+        <div className="flex items-center gap-2">
+          <PenTool className="w-5 h-5 text-blue-600" />
+          <span className="text-lg font-semibold text-blue-600">Manifest</span>
+        </div>
+      </div>
 
-      {!isReadonly && (
-        <ModelSelector
-          session={session}
-          selectedModelId={selectedModelId}
-          className="order-1 md:order-2"
-        />
-      )}
+             {/* Next Button - Only show when onboarding is complete */}
+       {state.onboardingComplete && (
+         <Tooltip>
+           <TooltipTrigger asChild>
+             <Button
+               variant="outline"
+               className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
+               onClick={() => {
+                 router.push('/');
+                 router.refresh();
+               }}
+             >
+               <span className="hidden md:inline">Next</span>
+               <span className="md:hidden">Next</span>
+             </Button>
+           </TooltipTrigger>
+           <TooltipContent>Next</TooltipContent>
+         </Tooltip>
+       )}
 
       {!isReadonly && (
         <VisibilitySelector
